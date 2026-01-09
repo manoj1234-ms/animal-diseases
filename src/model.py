@@ -14,3 +14,4 @@ def get_final_model():
         n_estimators=200,
         max_depth=6
     )
+
