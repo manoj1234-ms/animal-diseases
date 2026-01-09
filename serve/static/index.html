@@ -64,8 +64,8 @@
       resultEl.textContent = 'Loading...';
       console.log('Request payload:', data);
       try {
-        // Always send to the API host. Change if your API runs elsewhere.
-        const API_URL = 'http://127.0.0.1:8000';
+        // Use the current origin for the API (works for local and deployed)
+        const API_URL = window.location.origin;
         const res = await fetch(API_URL + '/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
