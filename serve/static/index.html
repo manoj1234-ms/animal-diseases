@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Animal Disease Predictor</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; max-width: 800px; margin: 2rem auto; }
+    label { display:block; margin-top:0.5rem }
+    input, select { width:100%; padding:0.4rem; margin-top:0.2rem }
+    button { margin-top:1rem; padding:0.6rem 1rem }
+    pre { background:#f6f6f6; padding:1rem }
+  </style>
+</head>
+<body>
+  <h1>Animal Disease Predictor</h1>
+  <form id="predict-form">
+    <label>Animal <input name="Animal" value="Dog" /></label>
+    <label>Age <input name="Age" type="number" step="1" value="4" /></label>
+    <label>Gender <input name="Gender" value="Male" /></label>
+    <label>Breed <input name="Breed" value="Labrador" /></label>
+
+    <label>WBC <input name="WBC" type="number" step="any" value="12000" /></label>
+    <label>RBC <input name="RBC" type="number" step="any" value="5.1" /></label>
+    <label>Hemoglobin <input name="Hemoglobin" type="number" step="any" value="13.5" /></label>
+    <label>Platelets <input name="Platelets" type="number" step="any" value="250000" /></label>
+    <label>Glucose <input name="Glucose" type="number" step="any" value="95" /></label>
+    <label>ALT <input name="ALT" type="number" step="any" value="45" /></label>
+    <label>AST <input name="AST" type="number" step="any" value="40" /></label>
+    <label>Urea <input name="Urea" type="number" step="any" value="30" /></label>
+    <label>Creatinine <input name="Creatinine" type="number" step="any" value="1.1" /></label>
+
+    <fieldset style="margin-top:1rem">
+      <legend>Symptoms (0/1)</legend>
+      <label>Fever <input name="Symptom_Fever" type="number" value="1" min="0" max="1" /></label>
+      <label>Lethargy <input name="Symptom_Lethargy" type="number" value="1" min="0" max="1" /></label>
+      <label>Vomiting <input name="Symptom_Vomiting" type="number" value="0" min="0" max="1" /></label>
+      <label>Diarrhea <input name="Symptom_Diarrhea" type="number" value="1" min="0" max="1" /></label>
+      <label>WeightLoss <input name="Symptom_WeightLoss" type="number" value="0" min="0" max="1" /></label>
+      <label>SkinLesion <input name="Symptom_SkinLesion" type="number" value="0" min="0" max="1" /></label>
+    </fieldset>
+
+    <button type="submit">Predict</button>
+  </form>
+
+  <h2>Result</h2>
+  <pre id="result">No prediction yet.</pre>
+
+  <script>
+    const form = document.getElementById('predict-form');
+    const resultEl = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {};
+      new FormData(form).forEach((v,k)=>{
+        // cast numbers
+        const num = Number(v);
+        data[k] = isNaN(num) ? v : num;
+      });
+
+      const submitBtn = form.querySelector('button[type=submit]');
+      submitBtn.disabled = true;
+      resultEl.textContent = 'Loading...';
+      console.log('Request payload:', data);
+      try {
+        // Always send to the API host. Change if your API runs elsewhere.
+        const API_URL = 'http://127.0.0.1:8000';
+        const res = await fetch(API_URL + '/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const text = await res.text();
+        // Try parse JSON, otherwise show raw text
+        try {
+          const json = JSON.parse(text);
+          resultEl.textContent = JSON.stringify(json, null, 2);
+        } catch (parseErr) {
+          resultEl.textContent = 'Non-JSON response:\n' + text;
+          console.error('Response parse error', parseErr, 'raw:', text);
+        }
+        if (!res.ok) console.error('Server returned non-OK status', res.status, res.statusText);
+      } catch (err) {
+        resultEl.textContent = 'Network/error: ' + err.message;
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

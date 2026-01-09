@@ -1,0 +1,25 @@
+# Python virtualenv
+animal/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter notebooks
+*.ipynb
+notebook/
+
+# Data and models (not needed in image)
+data/
+
+# VSCode
+.vscode/
+
+# Git
+.git

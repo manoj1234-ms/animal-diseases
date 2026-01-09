@@ -1,0 +1,21 @@
+{
+  "Animal": "Dog",
+  "Age": 4,
+  "Gender": "Male",
+  "Breed": "Labrador",
+  "WBC": 12000,
+  "RBC": 5.1,
+  "Hemoglobin": 13.5,
+  "Platelets": 250000,
+  "Glucose": 95,
+  "ALT": 45,
+  "AST": 40,
+  "Urea": 30,
+  "Creatinine": 1.1,
+  "Symptom_Fever": 1,
+  "Symptom_Lethargy": 1,
+  "Symptom_Vomiting": 0,
+  "Symptom_Diarrhea": 1,
+  "Symptom_WeightLoss": 0,
+  "Symptom_SkinLesion": 0
+}
