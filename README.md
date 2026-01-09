@@ -73,4 +73,9 @@ If you want, I can now:
 - create `scripts/retrain_stage1.py` that builds a consistent pipeline and saves it, or
 - add a minimal FastAPI `serve/app.py` and `Dockerfile` to containerize the service.
 
+Badges
+
+![CI](https://github.com/manoj1234-ms/animal-diseases/actions/workflows/ci.yml/badge.svg)
+![Docker Build](https://github.com/manoj1234-ms/animal-diseases/actions/workflows/docker-build.yml/badge.svg)
+
 Pick one next task and I'll implement it.
